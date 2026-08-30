@@ -1,0 +1,7 @@
+name = "smoke-scape-events"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Set these as secrets, not here:
+#   npx wrangler secret put DISCORD_BOT_TOKEN
+#   npx wrangler secret put DISCORD_GUILD_ID
