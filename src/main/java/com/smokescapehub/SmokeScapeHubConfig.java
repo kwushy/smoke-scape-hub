@@ -15,7 +15,7 @@ public interface SmokeScapeHubConfig extends Config
 	)
 	default String templeGroupId()
 	{
-		return "";
+		return "27";
 	}
 
 	@ConfigItem(
@@ -26,7 +26,7 @@ public interface SmokeScapeHubConfig extends Config
 	)
 	default String discordInviteUrl()
 	{
-		return "";
+		return "https://discord.gg/nVK6tbAHSa";
 	}
 
 	@ConfigItem(
