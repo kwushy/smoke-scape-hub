@@ -1,7 +1,5 @@
 package com.smokescapehub;
 
-import com.smokescapehub.calendar.CalendarClient;
-import com.smokescapehub.panels.CalendarPanel;
 import com.smokescapehub.panels.CompetitionsPanel;
 import com.smokescapehub.panels.DiscordPanel;
 import com.smokescapehub.panels.LeaderboardsPanel;
@@ -23,20 +21,18 @@ public class SmokeScapeHubPanel extends PluginPanel
 	private final MilestonesPanel milestonesPanel;
 	private final CompetitionsPanel competitionsPanel;
 	private final LeaderboardsPanel leaderboardsPanel;
-	private final CalendarPanel calendarPanel;
 	private final DiscordPanel discordPanel;
 
 	private SmokeScapeHubConfig config;
 
 	@Inject
-	public SmokeScapeHubPanel(TempleOsrsClient templeOsrsClient, CalendarClient calendarClient)
+	public SmokeScapeHubPanel(TempleOsrsClient templeOsrsClient)
 	{
 		super(false);
 
 		milestonesPanel = new MilestonesPanel(templeOsrsClient);
 		competitionsPanel = new CompetitionsPanel(templeOsrsClient);
 		leaderboardsPanel = new LeaderboardsPanel(templeOsrsClient);
-		calendarPanel = new CalendarPanel(calendarClient);
 		discordPanel = new DiscordPanel(templeOsrsClient);
 
 		setLayout(new BorderLayout());
@@ -52,13 +48,11 @@ public class SmokeScapeHubPanel extends PluginPanel
 		MaterialTab milestonesTab = new MaterialTab("Milestones", tabGroup, scroll(milestonesPanel));
 		MaterialTab competitionsTab = new MaterialTab("Comps", tabGroup, scroll(competitionsPanel));
 		MaterialTab leaderboardsTab = new MaterialTab("Ranks", tabGroup, leaderboardsPanel);
-		MaterialTab calendarTab = new MaterialTab("Calendar", tabGroup, scroll(calendarPanel));
 		MaterialTab discordTab = new MaterialTab("Discord", tabGroup, scroll(discordPanel));
 
 		tabGroup.addTab(milestonesTab);
 		tabGroup.addTab(competitionsTab);
 		tabGroup.addTab(leaderboardsTab);
-		tabGroup.addTab(calendarTab);
 		tabGroup.addTab(discordTab);
 
 		add(tabGroup, BorderLayout.NORTH);
@@ -82,7 +76,6 @@ public class SmokeScapeHubPanel extends PluginPanel
 		milestonesPanel.refresh(config.templeGroupId());
 		competitionsPanel.refresh(config.templeGroupId());
 		leaderboardsPanel.refresh(config.templeGroupId());
-		calendarPanel.refresh(config.calendarJsonUrl());
 		discordPanel.refresh(config.templeGroupId(), config.discordInviteUrl());
 	}
 

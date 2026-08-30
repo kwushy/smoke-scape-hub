@@ -20,7 +20,7 @@ import net.runelite.client.ui.NavigationButton;
 @Slf4j
 @PluginDescriptor(
 	name = "Smoke Scape Hub",
-	description = "Clan milestones, competitions, calendar and Discord link, powered by TempleOSRS",
+	description = "Clan milestones, competitions, leaderboards and Discord link, powered by TempleOSRS",
 	tags = {"clan", "templeosrs", "milestones", "competitions", "discord"}
 )
 public class SmokeScapeHubPlugin extends Plugin

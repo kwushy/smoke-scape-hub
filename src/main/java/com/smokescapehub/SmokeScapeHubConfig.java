@@ -30,21 +30,10 @@ public interface SmokeScapeHubConfig extends Config
 	}
 
 	@ConfigItem(
-		keyName = "calendarJsonUrl",
-		name = "Calendar JSON URL",
-		description = "URL to a JSON file (e.g. a GitHub Gist raw link) listing upcoming clan events",
-		position = 2
-	)
-	default String calendarJsonUrl()
-	{
-		return "";
-	}
-
-	@ConfigItem(
 		keyName = "refreshMinutes",
 		name = "Refresh interval (minutes)",
 		description = "How often to refresh milestone and competition data",
-		position = 3
+		position = 2
 	)
 	default int refreshMinutes()
 	{
