@@ -2,6 +2,7 @@ package com.smokescapehub.temple;
 
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -50,6 +51,29 @@ public class TempleOsrsClient
 		get(BASE_URL + "/competition_info.php?id=" + competitionId, CompetitionDetailResponse.class,
 			response -> onSuccess.accept(response.data != null && response.data.participants != null
 				? response.data.participants : Collections.emptyList()),
+			onError);
+	}
+
+	public void getPetCounts(String groupId, int count, Consumer<List<PetCountEntry>> onSuccess, Consumer<Exception> onError)
+	{
+		get(BASE_URL + "/pets/pet_count.php?group=" + groupId + "&count=" + count, PetCountResponse.class,
+			response -> onSuccess.accept(response.data != null ? new ArrayList<>(response.data.values()) : Collections.emptyList()),
+			onError);
+	}
+
+	public void getCollectionLogLeaderboard(String groupId, Consumer<List<CollectionLogMember>> onSuccess, Consumer<Exception> onError)
+	{
+		get(BASE_URL + "/collection-log/group_collection_log.php?group=" + groupId, GroupCollectionLogResponse.class,
+			response -> onSuccess.accept(response.data != null && response.data.members != null
+				? response.data.members : Collections.emptyList()),
+			onError);
+	}
+
+	public void getMemberStats(String groupId, Consumer<List<GroupMemberStats>> onSuccess, Consumer<Exception> onError)
+	{
+		get(BASE_URL + "/group_member_info.php?id=" + groupId + "&skills=1&bosses=1&details=1", GroupMemberInfoResponse.class,
+			response -> onSuccess.accept(response.data != null && response.data.memberlist != null
+				? new ArrayList<>(response.data.memberlist.values()) : Collections.emptyList()),
 			onError);
 	}
 
