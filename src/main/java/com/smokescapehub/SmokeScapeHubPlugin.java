@@ -1,6 +1,5 @@
 package com.smokescapehub;
 
-import com.google.inject.Provides;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -11,7 +10,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.client.config.ConfigManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
@@ -25,11 +23,10 @@ import net.runelite.client.ui.NavigationButton;
 )
 public class SmokeScapeHubPlugin extends Plugin
 {
-	@Inject
-	private ClientToolbar clientToolbar;
+	private static final int REFRESH_HOURS = 6;
 
 	@Inject
-	private SmokeScapeHubConfig config;
+	private ClientToolbar clientToolbar;
 
 	@Inject
 	private SmokeScapeHubPanel panel;
@@ -43,8 +40,6 @@ public class SmokeScapeHubPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
-		panel.init(config);
-
 		navButton = NavigationButton.builder()
 			.tooltip("Smoke Scape Hub")
 			.icon(createIcon())
@@ -56,8 +51,7 @@ public class SmokeScapeHubPlugin extends Plugin
 
 		panel.refreshAll();
 
-		long period = Math.max(1, config.refreshMinutes());
-		refreshTask = executor.scheduleWithFixedDelay(panel::refreshAll, period, period, TimeUnit.MINUTES);
+		refreshTask = executor.scheduleWithFixedDelay(panel::refreshAll, REFRESH_HOURS, REFRESH_HOURS, TimeUnit.HOURS);
 	}
 
 	@Override
@@ -70,12 +64,6 @@ public class SmokeScapeHubPlugin extends Plugin
 		}
 
 		clientToolbar.removeNavigation(navButton);
-	}
-
-	@Provides
-	SmokeScapeHubConfig provideConfig(ConfigManager configManager)
-	{
-		return configManager.getConfig(SmokeScapeHubConfig.class);
 	}
 
 	private BufferedImage createIcon()

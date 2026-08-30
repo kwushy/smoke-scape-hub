@@ -12,18 +12,13 @@ A RuneLite sidebar plugin for Old School RuneScape clans, built around
   top-5 standings.
 - **Ranks** — clan leaderboards for pet count, collection log completion,
   EHP and EHB.
-- **Discord** — one-click invite link, pulled automatically from your
-  TempleOSRS group's Discord link, or overridden manually.
+- **Discord** — one-click invite link.
 
-## Configuration
-
-Open the plugin's config panel in RuneLite and set:
-
-| Setting | Description |
-|---|---|
-| TempleOSRS Group ID | The numeric ID from your clan's `templeosrs.com/groups/<id>/...` URL |
-| Discord invite link *(optional)* | Overrides the Discord link from your TempleOSRS group page |
-| Refresh interval | How often (in minutes) to refresh milestones, competitions and ranks |
+This plugin is wired to one clan (Smoke Scape) with no config panel — the
+TempleOSRS group ID and Discord invite are hardcoded constants at the top of
+[`SmokeScapeHubPanel`](src/main/java/com/smokescapehub/SmokeScapeHubPanel.java).
+Data refreshes every 6 hours. To reuse this for a different clan, fork the
+repo and change those two constants.
 
 ## Data source
 

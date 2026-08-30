@@ -18,12 +18,13 @@ import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 
 public class SmokeScapeHubPanel extends PluginPanel
 {
+	private static final String TEMPLE_GROUP_ID = "27";
+	private static final String DISCORD_INVITE_URL = "https://discord.gg/nVK6tbAHSa";
+
 	private final MilestonesPanel milestonesPanel;
 	private final CompetitionsPanel competitionsPanel;
 	private final LeaderboardsPanel leaderboardsPanel;
 	private final DiscordPanel discordPanel;
-
-	private SmokeScapeHubConfig config;
 
 	@Inject
 	public SmokeScapeHubPanel(TempleOsrsClient templeOsrsClient)
@@ -61,22 +62,12 @@ public class SmokeScapeHubPanel extends PluginPanel
 		tabGroup.select(milestonesTab);
 	}
 
-	public void init(SmokeScapeHubConfig config)
-	{
-		this.config = config;
-	}
-
 	public void refreshAll()
 	{
-		if (config == null)
-		{
-			return;
-		}
-
-		milestonesPanel.refresh(config.templeGroupId());
-		competitionsPanel.refresh(config.templeGroupId());
-		leaderboardsPanel.refresh(config.templeGroupId());
-		discordPanel.refresh(config.templeGroupId(), config.discordInviteUrl());
+		milestonesPanel.refresh(TEMPLE_GROUP_ID);
+		competitionsPanel.refresh(TEMPLE_GROUP_ID);
+		leaderboardsPanel.refresh(TEMPLE_GROUP_ID);
+		discordPanel.refresh(TEMPLE_GROUP_ID, DISCORD_INVITE_URL);
 	}
 
 	private JScrollPane scroll(JPanel content)
