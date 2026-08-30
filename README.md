@@ -19,8 +19,3 @@ TempleOSRS group ID and Discord invite are hardcoded constants at the top of
 [`SmokeScapeHubPanel`](src/main/java/com/smokescapehub/SmokeScapeHubPanel.java).
 Data refreshes every 6 hours.
 
-## Data source
-
-This plugin reads from the public [TempleOSRS API](https://templeosrs.com/api_doc.php).
-It does not require a TempleOSRS account or API key — just a public
-TempleOSRS group set up for your clan.
