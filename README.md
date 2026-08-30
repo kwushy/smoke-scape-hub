@@ -1,6 +1,6 @@
 # Smoke Scape Hub
 
-A RuneLite sidebar plugin for Old School RuneScape clans, built around
+A RuneLite sidebar plugin for the Smoke Scape clan, built around
 [TempleOSRS](https://templeosrs.com) group tracking.
 
 ## Features
@@ -17,8 +17,7 @@ A RuneLite sidebar plugin for Old School RuneScape clans, built around
 This plugin is wired to one clan (Smoke Scape) with no config panel — the
 TempleOSRS group ID and Discord invite are hardcoded constants at the top of
 [`SmokeScapeHubPanel`](src/main/java/com/smokescapehub/SmokeScapeHubPanel.java).
-Data refreshes every 6 hours. To reuse this for a different clan, fork the
-repo and change those two constants.
+Data refreshes every 6 hours.
 
 ## Data source
 
