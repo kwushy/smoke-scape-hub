@@ -19,7 +19,7 @@ import net.runelite.client.util.ImageUtil;
 )
 public class SmokeScapeHubPlugin extends Plugin
 {
-	private static final int REFRESH_HOURS = 6;
+	private static final int REFRESH_HOURS = 1;
 
 	@Inject
 	private ClientToolbar clientToolbar;
