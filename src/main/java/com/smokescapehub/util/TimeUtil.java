@@ -27,18 +27,6 @@ public final class TimeUtil
 		}
 	}
 
-	public static Instant parseIso(String iso)
-	{
-		try
-		{
-			return Instant.parse(iso);
-		}
-		catch (Exception e)
-		{
-			return Instant.EPOCH;
-		}
-	}
-
 	public static String ago(Instant time)
 	{
 		return describe(Duration.between(time, Instant.now())) + " ago";
@@ -72,21 +60,6 @@ public final class TimeUtil
 		}
 		long days = Math.abs(duration.toDays());
 		return days + "d";
-	}
-
-	// Formats a reminder threshold (e.g. 1440 -> "24 hours", 30 -> "30 minutes").
-	public static String describeThresholdMinutes(int minutes)
-	{
-		if (minutes <= 0)
-		{
-			return "now";
-		}
-		if (minutes < 60)
-		{
-			return minutes + (minutes == 1 ? " minute" : " minutes");
-		}
-		int hours = minutes / 60;
-		return hours + (hours == 1 ? " hour" : " hours");
 	}
 
 	public static String formatNumber(long value)
