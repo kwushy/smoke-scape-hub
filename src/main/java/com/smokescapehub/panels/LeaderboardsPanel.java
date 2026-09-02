@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -48,6 +49,7 @@ public class LeaderboardsPanel extends JPanel
 		MaterialTabGroup subTabs = new MaterialTabGroup(display);
 		subTabs.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		subTabs.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+		subTabs.setLayout(new GridLayout(1, 4, 2, 0));
 
 		MaterialTab ehpTab = new MaterialTab("EHP", subTabs, scroll(ehpView.root));
 		MaterialTab ehbTab = new MaterialTab("EHB", subTabs, scroll(ehbView.root));

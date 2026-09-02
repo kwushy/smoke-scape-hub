@@ -6,6 +6,7 @@ import com.smokescapehub.panels.LeaderboardsPanel;
 import com.smokescapehub.panels.MilestonesPanel;
 import com.smokescapehub.temple.TempleOsrsClient;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -45,6 +46,10 @@ public class SmokeScapeHubPanel extends PluginPanel
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
 		tabGroup.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		tabGroup.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+		// MaterialTabGroup's own FlowLayout wraps overflowing tabs onto a
+		// row that never gets shown in this panel's ~225px width - a fixed
+		// grid guarantees every tab is always visible.
+		tabGroup.setLayout(new GridLayout(2, 2, 2, 2));
 
 		MaterialTab milestonesTab = new MaterialTab("Milestones", tabGroup, scroll(milestonesPanel));
 		MaterialTab competitionsTab = new MaterialTab("Comps", tabGroup, scroll(competitionsPanel));
