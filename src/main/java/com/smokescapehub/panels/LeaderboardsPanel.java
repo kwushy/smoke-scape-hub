@@ -2,7 +2,7 @@ package com.smokescapehub.panels;
 
 import com.smokescapehub.temple.CollectionLogMember;
 import com.smokescapehub.temple.GroupMemberStats;
-import com.smokescapehub.temple.PetCountEntry;
+import com.smokescapehub.temple.PetItems;
 import com.smokescapehub.temple.TempleOsrsClient;
 import com.smokescapehub.util.TimeUtil;
 import java.awt.BorderLayout;
@@ -82,15 +82,21 @@ public class LeaderboardsPanel extends JPanel
 
 		String id = groupId.trim();
 
+		// Pets are derived from the same collection log fetch (see PetItems) -
+		// TempleOSRS's dedicated pet-tracking endpoint has almost no data.
 		petView.showStatus("Loading...");
-		client.getPetCounts(id, TOP_N,
-			entries -> SwingUtilities.invokeLater(() -> populatePets(entries)),
-			error -> SwingUtilities.invokeLater(() -> petView.showStatus("Failed to load pet counts.")));
-
 		clogView.showStatus("Loading...");
 		client.getCollectionLogLeaderboard(id,
-			members -> SwingUtilities.invokeLater(() -> populateClog(members)),
-			error -> SwingUtilities.invokeLater(() -> clogView.showStatus("Failed to load the collection log leaderboard.")));
+			members -> SwingUtilities.invokeLater(() ->
+			{
+				populateClog(members);
+				populatePets(members);
+			}),
+			error -> SwingUtilities.invokeLater(() ->
+			{
+				clogView.showStatus("Failed to load the collection log leaderboard.");
+				petView.showStatus("Failed to load pet counts.");
+			}));
 
 		ehpView.showStatus("Loading...");
 		ehbView.showStatus("Loading...");
@@ -103,16 +109,20 @@ public class LeaderboardsPanel extends JPanel
 			}));
 	}
 
-	private void populatePets(List<PetCountEntry> entries)
+	private void populatePets(List<CollectionLogMember> members)
 	{
-		List<PetCountEntry> sorted = (entries == null ? Collections.<PetCountEntry>emptyList() : entries).stream()
-			.sorted(Comparator.comparingInt((PetCountEntry e) -> e.petCount).reversed())
+		List<CollectionLogMember> sorted = (members == null ? Collections.<CollectionLogMember>emptyList() : members).stream()
+			.filter(m -> PetItems.countPets(m.items) > 0)
+			.sorted(Comparator.comparingInt((CollectionLogMember m) -> PetItems.countPets(m.items)).reversed())
 			.limit(TOP_N)
 			.collect(Collectors.toList());
 
 		petView.showRows(
-			sorted.stream().map(e -> e.player == null ? "Unknown" : e.player).collect(Collectors.toList()),
-			sorted.stream().map(e -> e.petCount + (e.petCount == 1 ? " pet" : " pets")).collect(Collectors.toList()));
+			sorted.stream().map(this::clogName).collect(Collectors.toList()),
+			sorted.stream().map(m -> {
+				int count = PetItems.countPets(m.items);
+				return count + (count == 1 ? " pet" : " pets");
+			}).collect(Collectors.toList()));
 	}
 
 	private void populateClog(List<CollectionLogMember> members)

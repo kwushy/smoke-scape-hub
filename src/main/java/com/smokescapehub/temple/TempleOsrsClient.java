@@ -54,16 +54,12 @@ public class TempleOsrsClient
 			onError);
 	}
 
-	public void getPetCounts(String groupId, int count, Consumer<List<PetCountEntry>> onSuccess, Consumer<Exception> onError)
-	{
-		get(BASE_URL + "/pets/pet_count.php?group=" + groupId + "&count=" + count, PetCountResponse.class,
-			response -> onSuccess.accept(response.data != null ? new ArrayList<>(response.data.values()) : Collections.emptyList()),
-			onError);
-	}
-
+	// categories=all is required to get each member's full item list, which
+	// is what pet counts are derived from (see PetItems) - TempleOSRS's
+	// dedicated pet-tracking endpoint has almost no data for most clans.
 	public void getCollectionLogLeaderboard(String groupId, Consumer<List<CollectionLogMember>> onSuccess, Consumer<Exception> onError)
 	{
-		get(BASE_URL + "/collection-log/group_collection_log.php?group=" + groupId, GroupCollectionLogResponse.class,
+		get(BASE_URL + "/collection-log/group_collection_log.php?group=" + groupId + "&categories=all", GroupCollectionLogResponse.class,
 			response -> onSuccess.accept(response.data != null && response.data.members != null
 				? response.data.members : Collections.emptyList()),
 			onError);
