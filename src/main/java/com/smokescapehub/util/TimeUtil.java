@@ -74,6 +74,21 @@ public final class TimeUtil
 		return days + "d";
 	}
 
+	// Formats a reminder threshold (e.g. 1440 -> "24 hours", 30 -> "30 minutes").
+	public static String describeThresholdMinutes(int minutes)
+	{
+		if (minutes <= 0)
+		{
+			return "now";
+		}
+		if (minutes < 60)
+		{
+			return minutes + (minutes == 1 ? " minute" : " minutes");
+		}
+		int hours = minutes / 60;
+		return hours + (hours == 1 ? " hour" : " hours");
+	}
+
 	public static String formatNumber(long value)
 	{
 		return String.format("%,d", value);
