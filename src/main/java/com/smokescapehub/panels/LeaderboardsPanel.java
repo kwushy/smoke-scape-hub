@@ -21,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import net.runelite.client.ui.ColorScheme;
+import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
 import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 
@@ -48,20 +49,20 @@ public class LeaderboardsPanel extends JPanel
 		subTabs.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		subTabs.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
-		MaterialTab petTab = new MaterialTab("Pets", subTabs, scroll(petView.root));
-		MaterialTab clogTab = new MaterialTab("Clog", subTabs, scroll(clogView.root));
 		MaterialTab ehpTab = new MaterialTab("EHP", subTabs, scroll(ehpView.root));
 		MaterialTab ehbTab = new MaterialTab("EHB", subTabs, scroll(ehbView.root));
+		MaterialTab clogTab = new MaterialTab("Clog", subTabs, scroll(clogView.root));
+		MaterialTab petTab = new MaterialTab("Pets", subTabs, scroll(petView.root));
 
-		subTabs.addTab(petTab);
-		subTabs.addTab(clogTab);
 		subTabs.addTab(ehpTab);
 		subTabs.addTab(ehbTab);
+		subTabs.addTab(clogTab);
+		subTabs.addTab(petTab);
 
 		add(subTabs, BorderLayout.NORTH);
 		add(display, BorderLayout.CENTER);
 
-		subTabs.select(petTab);
+		subTabs.select(ehpTab);
 	}
 
 	public void refresh(String groupId)
@@ -189,7 +190,7 @@ public class LeaderboardsPanel extends JPanel
 			listPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
 			statusLabel.setForeground(Color.GRAY);
-			statusLabel.setFont(statusLabel.getFont().deriveFont(11f));
+			statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
 			statusLabel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
 			root.add(statusLabel, BorderLayout.NORTH);
@@ -234,11 +235,12 @@ public class LeaderboardsPanel extends JPanel
 
 			JLabel nameLabel = new JLabel(rank + ".  " + name);
 			nameLabel.setForeground(Color.WHITE);
-			nameLabel.setFont(nameLabel.getFont().deriveFont(rank <= 3 ? Font.BOLD : Font.PLAIN, 12f));
+			Font base = rank <= 3 ? FontManager.getRunescapeBoldFont() : FontManager.getRunescapeFont();
+			nameLabel.setFont(base.deriveFont(13f));
 
 			JLabel valueLabel = new JLabel(value);
 			valueLabel.setForeground(ColorScheme.BRAND_ORANGE);
-			valueLabel.setFont(valueLabel.getFont().deriveFont(11f));
+			valueLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
 
 			row.add(nameLabel, BorderLayout.WEST);
 			row.add(valueLabel, BorderLayout.EAST);

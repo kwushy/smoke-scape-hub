@@ -3,7 +3,9 @@ package com.smokescapehub.panels;
 import com.smokescapehub.temple.TempleOsrsClient;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -11,12 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import net.runelite.client.ui.ColorScheme;
+import net.runelite.client.ui.FontManager;
 import net.runelite.client.util.LinkBrowser;
 
 public class DiscordPanel extends JPanel
 {
 	private final TempleOsrsClient client;
 	private final JLabel statusLabel = new JLabel();
+	private final JLabel linkLabel = new JLabel();
 	private final JButton joinButton = new JButton("Open Discord Invite");
 	private String inviteUrl = "";
 
@@ -34,13 +38,30 @@ public class DiscordPanel extends JPanel
 
 		JLabel title = new JLabel("Join the clan Discord");
 		title.setForeground(Color.WHITE);
-		title.setFont(title.getFont().deriveFont(Font.BOLD, 13f));
+		title.setFont(FontManager.getRunescapeBoldFont().deriveFont(14f));
 		title.setAlignmentX(0.5f);
 
 		statusLabel.setForeground(Color.LIGHT_GRAY);
-		statusLabel.setFont(statusLabel.getFont().deriveFont(11f));
+		statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
 		statusLabel.setAlignmentX(0.5f);
-		statusLabel.setBorder(BorderFactory.createEmptyBorder(6, 0, 12, 0));
+		statusLabel.setBorder(BorderFactory.createEmptyBorder(6, 0, 4, 0));
+
+		linkLabel.setForeground(ColorScheme.BRAND_ORANGE);
+		linkLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+		linkLabel.setAlignmentX(0.5f);
+		linkLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 12, 0));
+		linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		linkLabel.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if (!inviteUrl.isEmpty())
+				{
+					LinkBrowser.browse(inviteUrl);
+				}
+			}
+		});
 
 		joinButton.setAlignmentX(0.5f);
 		joinButton.setFocusPainted(false);
@@ -55,6 +76,7 @@ public class DiscordPanel extends JPanel
 
 		content.add(title);
 		content.add(statusLabel);
+		content.add(linkLabel);
 		content.add(joinButton);
 
 		add(content, BorderLayout.NORTH);
@@ -96,6 +118,7 @@ public class DiscordPanel extends JPanel
 		this.inviteUrl = url == null ? "" : url;
 		boolean has = !inviteUrl.isEmpty();
 		joinButton.setEnabled(has);
+		linkLabel.setText(has ? inviteUrl : "");
 		if (has)
 		{
 			statusLabel.setText("Click below to open the invite link.");

@@ -6,7 +6,6 @@ import com.smokescapehub.util.TimeUtil;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -15,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import net.runelite.client.ui.ColorScheme;
+import net.runelite.client.ui.FontManager;
 
 public class MilestonesPanel extends JPanel
 {
@@ -33,7 +33,7 @@ public class MilestonesPanel extends JPanel
 		listPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
 		statusLabel.setForeground(Color.GRAY);
-		statusLabel.setFont(statusLabel.getFont().deriveFont(11f));
+		statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
 		statusLabel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
 		add(statusLabel, BorderLayout.NORTH);
@@ -86,13 +86,13 @@ public class MilestonesPanel extends JPanel
 
 		JLabel nameLabel = new JLabel(achievement.username == null ? "Unknown" : achievement.username);
 		nameLabel.setForeground(Color.WHITE);
-		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 12f));
+		nameLabel.setFont(FontManager.getRunescapeBoldFont().deriveFont(13f));
 		nameLabel.setAlignmentX(0f);
 
 		String detail = describeMilestone(achievement) + "  •  " + TimeUtil.ago(TimeUtil.parseTempleDate(achievement.date));
 		JLabel detailLabel = new JLabel(detail);
 		detailLabel.setForeground(Color.LIGHT_GRAY);
-		detailLabel.setFont(detailLabel.getFont().deriveFont(11f));
+		detailLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
 		detailLabel.setAlignmentX(0f);
 
 		row.add(nameLabel);
