@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -23,7 +24,8 @@ import net.runelite.client.ui.FontManager;
 public class CompetitionsPanel extends JPanel
 {
 	private static final long MAX_UPCOMING_SECONDS = 14L * 24 * 60 * 60;
-	private static final int TOP_N = 25;
+	private static final int COLLAPSED_TOP_N = 5;
+	private static final int EXPANDED_TOP_N = 25;
 
 	private final TempleOsrsClient client;
 	private final JPanel listPanel = new JPanel();
@@ -149,14 +151,19 @@ public class CompetitionsPanel extends JPanel
 
 	private void populateStandings(JPanel standings, List<CompetitionParticipant> participants)
 	{
-		standings.removeAll();
-
-		List<CompetitionParticipant> top = participants == null ? Collections.emptyList() : participants.stream()
+		List<CompetitionParticipant> sorted = participants == null ? Collections.emptyList() : participants.stream()
 			.sorted(Comparator.comparingLong((CompetitionParticipant p) -> p.xpGained).reversed())
-			.limit(TOP_N)
+			.limit(EXPANDED_TOP_N)
 			.collect(Collectors.toList());
 
-		if (top.isEmpty())
+		renderStandings(standings, sorted, false);
+	}
+
+	private void renderStandings(JPanel standings, List<CompetitionParticipant> sorted, boolean expanded)
+	{
+		standings.removeAll();
+
+		if (sorted.isEmpty())
 		{
 			JLabel none = new JLabel("No participants yet.");
 			none.setForeground(Color.GRAY);
@@ -165,8 +172,10 @@ public class CompetitionsPanel extends JPanel
 		}
 		else
 		{
+			int shown = Math.min(expanded ? EXPANDED_TOP_N : COLLAPSED_TOP_N, sorted.size());
+
 			int rank = 1;
-			for (CompetitionParticipant p : top)
+			for (CompetitionParticipant p : sorted.subList(0, shown))
 			{
 				String name = p.username == null ? "Unknown" : p.username;
 				JLabel line = new JLabel(rank + ". " + name + " — " + TimeUtil.formatCompact(p.xpGained));
@@ -175,6 +184,17 @@ public class CompetitionsPanel extends JPanel
 				line.setAlignmentX(0f);
 				standings.add(line);
 				rank++;
+			}
+
+			if (sorted.size() > COLLAPSED_TOP_N)
+			{
+				JButton toggle = new JButton(expanded ? "Show less" : "Show more");
+				toggle.setFocusPainted(false);
+				toggle.setFont(FontManager.getRunescapeFont().deriveFont(11f));
+				toggle.setAlignmentX(0f);
+				toggle.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
+				toggle.addActionListener(e -> renderStandings(standings, sorted, !expanded));
+				standings.add(toggle);
 			}
 		}
 
