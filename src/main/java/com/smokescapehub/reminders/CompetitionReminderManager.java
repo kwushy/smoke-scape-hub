@@ -19,9 +19,11 @@ import net.runelite.client.chat.ChatMessageManager;
 import net.runelite.client.chat.QueuedMessage;
 
 // Fires chatbox reminders for upcoming TempleOSRS group competitions
-// (24h/6h/2h/1h/30m/start before), and a "currently running" message on a
-// real login (not a world hop). No external data source - this rides on
-// the same group_competitions.php data the Comps tab already fetches.
+// (24h/6h/2h/1h/30m/start before), and a "currently running" message once
+// per real login - not on every teleport/region change or world hop, both
+// of which also fire GameState.LOGGED_IN. No external data source - this
+// rides on the same group_competitions.php data the Comps tab already
+// fetches.
 //
 // State here is touched from three threads - the OkHttp callback thread
 // (competition fetches), the 1-minute tick executor thread, and the client
@@ -39,7 +41,14 @@ public class CompetitionReminderManager
 	private final Set<String> firedReminders = ConcurrentHashMap.newKeySet();
 	private final Set<Integer> knownCompetitionIds = ConcurrentHashMap.newKeySet();
 	private volatile List<GroupCompetition> competitions = Collections.emptyList();
-	private volatile GameState previousState = GameState.UNKNOWN;
+
+	// GameState.LOGGED_IN fires on every region change (teleporting) and on
+	// world hops, not just on a real login - RuneLite's own XpTrackerPlugin
+	// notes this ("LOGGED_IN is triggered between region changes too").
+	// Tracking whether we were already logged in - reset only by actually
+	// seeing the login screen - is what correctly limits this to once per
+	// real login, ignoring both teleports and hops.
+	private volatile boolean wasLoggedIn;
 
 	@Inject
 	public CompetitionReminderManager(Client client, ChatMessageManager chatMessageManager, TempleOsrsClient templeOsrsClient, SmokeScapeHubConfig config)
@@ -54,8 +63,8 @@ public class CompetitionReminderManager
 	// already logged in mid-session (no GameStateChanged would fire for that).
 	public void init()
 	{
-		previousState = client.getGameState();
-		if (previousState == GameState.LOGGED_IN)
+		wasLoggedIn = client.getGameState() == GameState.LOGGED_IN;
+		if (wasLoggedIn)
 		{
 			announceActiveCompetitions();
 		}
@@ -131,11 +140,21 @@ public class CompetitionReminderManager
 
 	public void onGameStateChanged(GameState newState)
 	{
-		if (newState == GameState.LOGGED_IN && previousState != GameState.HOPPING)
+		if (newState == GameState.LOGGED_IN)
 		{
-			announceActiveCompetitions();
+			if (!wasLoggedIn)
+			{
+				announceActiveCompetitions();
+			}
+			wasLoggedIn = true;
 		}
-		previousState = newState;
+		else if (newState == GameState.LOGIN_SCREEN || newState == GameState.LOGIN_SCREEN_AUTHENTICATOR)
+		{
+			// Only a real logout puts the client back here - hopping goes
+			// through GameState.HOPPING instead, and teleporting/region
+			// changes never leave LOGGED_IN at all.
+			wasLoggedIn = false;
+		}
 	}
 
 	private void announceActiveCompetitions()
