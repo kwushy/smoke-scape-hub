@@ -8,7 +8,6 @@ import com.smokescapehub.util.TimeUtil;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Collections;
 import java.util.Comparator;
@@ -205,7 +204,7 @@ public class LeaderboardsPanel extends JPanel
 			listPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
 			statusLabel.setForeground(Color.GRAY);
-			statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+			statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 			statusLabel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
 			root.add(statusLabel, BorderLayout.NORTH);
@@ -250,12 +249,11 @@ public class LeaderboardsPanel extends JPanel
 
 			JLabel nameLabel = new JLabel(rank + ".  " + name);
 			nameLabel.setForeground(Color.WHITE);
-			Font base = rank <= 3 ? FontManager.getRunescapeBoldFont() : FontManager.getRunescapeFont();
-			nameLabel.setFont(base.deriveFont(13f));
+			nameLabel.setFont(FontManager.getRunescapeFont().deriveFont(15f));
 
 			JLabel valueLabel = new JLabel(value);
 			valueLabel.setForeground(ColorScheme.BRAND_ORANGE);
-			valueLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+			valueLabel.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 
 			row.add(nameLabel, BorderLayout.WEST);
 			row.add(valueLabel, BorderLayout.EAST);

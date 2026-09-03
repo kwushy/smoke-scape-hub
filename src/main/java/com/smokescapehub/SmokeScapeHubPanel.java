@@ -55,8 +55,8 @@ public class SmokeScapeHubPanel extends PluginPanel
 
 		MaterialTab milestonesTab = new MaterialTab("Milestones", tabGroup, scroll(milestonesPanel));
 		MaterialTab competitionsTab = new MaterialTab("Comps", tabGroup, scroll(competitionsPanel));
-		MaterialTab leaderboardsTab = new MaterialTab("Ranks", tabGroup, leaderboardsPanel);
-		MaterialTab discordTab = new MaterialTab("Discord", tabGroup, scroll(discordPanel));
+		MaterialTab leaderboardsTab = new MaterialTab("Leaderboards", tabGroup, leaderboardsPanel);
+		MaterialTab discordTab = new MaterialTab("Info", tabGroup, scroll(discordPanel));
 
 		tabGroup.addTab(milestonesTab);
 		tabGroup.addTab(competitionsTab);

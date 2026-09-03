@@ -33,7 +33,7 @@ public class MilestonesPanel extends JPanel
 		listPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
 		statusLabel.setForeground(Color.GRAY);
-		statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+		statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 		statusLabel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
 		add(statusLabel, BorderLayout.NORTH);
@@ -86,13 +86,13 @@ public class MilestonesPanel extends JPanel
 
 		JLabel nameLabel = new JLabel(achievement.username == null ? "Unknown" : achievement.username);
 		nameLabel.setForeground(Color.WHITE);
-		nameLabel.setFont(FontManager.getRunescapeBoldFont().deriveFont(13f));
+		nameLabel.setFont(FontManager.getRunescapeBoldFont().deriveFont(15f));
 		nameLabel.setAlignmentX(0f);
 
 		String detail = describeMilestone(achievement) + "  •  " + TimeUtil.ago(TimeUtil.parseTempleDate(achievement.date));
 		JLabel detailLabel = new JLabel(detail);
 		detailLabel.setForeground(Color.LIGHT_GRAY);
-		detailLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+		detailLabel.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 		detailLabel.setAlignmentX(0f);
 
 		row.add(nameLabel);

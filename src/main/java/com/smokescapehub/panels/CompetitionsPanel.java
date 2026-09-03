@@ -42,7 +42,7 @@ public class CompetitionsPanel extends JPanel
 		listPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
 		statusLabel.setForeground(Color.GRAY);
-		statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+		statusLabel.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 		statusLabel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
 		add(statusLabel, BorderLayout.NORTH);
@@ -106,7 +106,7 @@ public class CompetitionsPanel extends JPanel
 
 		JLabel titleLabel = new JLabel(competition.name == null ? "Competition" : competition.name);
 		titleLabel.setForeground(Color.WHITE);
-		titleLabel.setFont(FontManager.getRunescapeBoldFont().deriveFont(13f));
+		titleLabel.setFont(FontManager.getRunescapeBoldFont().deriveFont(15f));
 		titleLabel.setAlignmentX(0f);
 
 		String timing = ongoing
@@ -115,7 +115,7 @@ public class CompetitionsPanel extends JPanel
 
 		JLabel metaLabel = new JLabel(prettySkill(competition.skill) + "  •  " + timing);
 		metaLabel.setForeground(Color.LIGHT_GRAY);
-		metaLabel.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+		metaLabel.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 		metaLabel.setAlignmentX(0f);
 
 		JPanel standings = new JPanel();
@@ -138,7 +138,7 @@ public class CompetitionsPanel extends JPanel
 		{
 			JLabel loading = new JLabel("Loading standings...");
 			loading.setForeground(Color.GRAY);
-			loading.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+			loading.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 			standings.add(loading);
 
 			client.getCompetitionParticipants(competition.id,
@@ -167,7 +167,7 @@ public class CompetitionsPanel extends JPanel
 		{
 			JLabel none = new JLabel("No participants yet.");
 			none.setForeground(Color.GRAY);
-			none.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+			none.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 			standings.add(none);
 		}
 		else
@@ -180,7 +180,7 @@ public class CompetitionsPanel extends JPanel
 				String name = p.username == null ? "Unknown" : p.username;
 				JLabel line = new JLabel(rank + ". " + name + " — " + TimeUtil.formatCompact(p.xpGained));
 				line.setForeground(Color.WHITE);
-				line.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+				line.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 				line.setAlignmentX(0f);
 				standings.add(line);
 				rank++;
@@ -190,9 +190,13 @@ public class CompetitionsPanel extends JPanel
 			{
 				JButton toggle = new JButton(expanded ? "Show less" : "Show more");
 				toggle.setFocusPainted(false);
-				toggle.setFont(FontManager.getRunescapeFont().deriveFont(11f));
+				toggle.setFont(FontManager.getRunescapeFont().deriveFont(13f));
 				toggle.setAlignmentX(0f);
-				toggle.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
+				toggle.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createEmptyBorder(4, 0, 0, 0),
+					BorderFactory.createCompoundBorder(
+						BorderFactory.createLineBorder(ColorScheme.MEDIUM_GRAY_COLOR),
+						BorderFactory.createEmptyBorder(3, 8, 3, 8))));
 				toggle.addActionListener(e -> renderStandings(standings, sorted, !expanded));
 				standings.add(toggle);
 			}
@@ -208,7 +212,7 @@ public class CompetitionsPanel extends JPanel
 		standings.removeAll();
 		JLabel err = new JLabel("Couldn't load standings.");
 		err.setForeground(Color.GRAY);
-		err.setFont(FontManager.getRunescapeFont().deriveFont(12f));
+		err.setFont(FontManager.getRunescapeFont().deriveFont(14f));
 		standings.add(err);
 		standings.revalidate();
 		listPanel.revalidate();

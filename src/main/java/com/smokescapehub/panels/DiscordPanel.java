@@ -36,6 +36,23 @@ public class DiscordPanel extends JPanel
 		content.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		content.setBorder(BorderFactory.createEmptyBorder(16, 12, 16, 12));
 
+		JLabel intro = new JLabel("<html><body style='width: 190px'>"
+			+ "Smoke Scape is an established Social clan but we do it all!"
+			+ "<br><br>"
+			+ "&bull; Clan events<br>"
+			+ "&bull; Weekly competitions<br>"
+			+ "&bull; PVM and Raids<br>"
+			+ "&bull; Mass Minigames<br>"
+			+ "&bull; Active discord"
+			+ "<br><br>"
+			+ "<b>Join Today!</b><br>"
+			+ "Clan Chat: Smoke Scape"
+			+ "</body></html>");
+		intro.setForeground(Color.LIGHT_GRAY);
+		intro.setFont(FontManager.getRunescapeFont().deriveFont(13f));
+		intro.setAlignmentX(0.5f);
+		intro.setBorder(BorderFactory.createEmptyBorder(0, 0, 16, 0));
+
 		JLabel title = new JLabel("Join the clan Discord");
 		title.setForeground(Color.WHITE);
 		title.setFont(FontManager.getRunescapeBoldFont().deriveFont(14f));
@@ -74,6 +91,7 @@ public class DiscordPanel extends JPanel
 			}
 		});
 
+		content.add(intro);
 		content.add(title);
 		content.add(statusLabel);
 		content.add(linkLabel);
