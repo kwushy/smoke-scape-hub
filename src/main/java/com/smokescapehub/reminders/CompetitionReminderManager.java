@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
@@ -32,6 +33,7 @@ import net.runelite.client.chat.QueuedMessage;
 public class CompetitionReminderManager
 {
 	private static final int[] THRESHOLD_MINUTES = {1440, 360, 120, 60, 30, 0};
+	private static final long MAX_REMINDER_DURATION_SECONDS = 30L * 24 * 60 * 60;
 
 	private final Client client;
 	private final ChatMessageManager chatMessageManager;
@@ -82,9 +84,19 @@ public class CompetitionReminderManager
 
 	private void onCompetitionsFetched(List<GroupCompetition> fetched)
 	{
+		// Long-running competitions (the yearly XP comp, etc.) are excluded
+		// from reminders entirely - they're active for months at a time, so
+		// a "currently running" login message would never stop firing, and
+		// countdown reminders are meaningless for something that started
+		// long ago. The Comps tab still shows them normally; this only
+		// affects notifications.
+		List<GroupCompetition> relevant = fetched.stream()
+			.filter(c -> c.endDateUnix - c.startDateUnix <= MAX_REMINDER_DURATION_SECONDS)
+			.collect(Collectors.toList());
+
 		Instant now = Instant.now();
 
-		for (GroupCompetition competition : fetched)
+		for (GroupCompetition competition : relevant)
 		{
 			if (!knownCompetitionIds.add(competition.id))
 			{
@@ -104,7 +116,7 @@ public class CompetitionReminderManager
 			}
 		}
 
-		competitions = fetched;
+		competitions = relevant;
 	}
 
 	// Call on a frequent timer (e.g. every minute) - the hourly data refresh
