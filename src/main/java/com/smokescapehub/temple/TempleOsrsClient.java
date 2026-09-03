@@ -46,6 +46,14 @@ public class TempleOsrsClient
 			response -> onSuccess.accept(response.data != null ? response.data : Collections.emptyList()), onError);
 	}
 
+	// onlynotable=1 keeps this to pets/rare clue items/other significant
+	// unlocks rather than every minor collection log tick.
+	public void getGroupRecentItems(String groupId, Consumer<List<RecentCollectionItem>> onSuccess, Consumer<Exception> onError)
+	{
+		get(BASE_URL + "/collection-log/group_recent_items.php?group=" + groupId + "&count=50&onlynotable=1", RecentCollectionItemsResponse.class,
+			response -> onSuccess.accept(response.data != null ? response.data : Collections.emptyList()), onError);
+	}
+
 	public void getCompetitionParticipants(int competitionId, Consumer<List<CompetitionParticipant>> onSuccess, Consumer<Exception> onError)
 	{
 		get(BASE_URL + "/competition_info.php?id=" + competitionId, CompetitionDetailResponse.class,

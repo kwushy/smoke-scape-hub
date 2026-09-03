@@ -5,8 +5,8 @@ import com.smokescapehub.panels.DiscordPanel;
 import com.smokescapehub.panels.LeaderboardsPanel;
 import com.smokescapehub.panels.MilestonesPanel;
 import com.smokescapehub.temple.TempleOsrsClient;
+import com.smokescapehub.util.SlickScrollBarUI;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.inject.Inject;
 import javax.swing.BorderFactory;
@@ -17,7 +17,6 @@ import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
 import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
-import net.runelite.client.ui.laf.RuneLiteScrollBarUI;
 
 public class SmokeScapeHubPanel extends PluginPanel
 {
@@ -53,7 +52,7 @@ public class SmokeScapeHubPanel extends PluginPanel
 		// grid guarantees every tab is always visible.
 		tabGroup.setLayout(new GridLayout(2, 2, 2, 2));
 
-		MaterialTab milestonesTab = new MaterialTab("Milestones", tabGroup, scroll(milestonesPanel));
+		MaterialTab milestonesTab = new MaterialTab("Recent", tabGroup, scroll(milestonesPanel));
 		MaterialTab competitionsTab = new MaterialTab("Comps", tabGroup, scroll(competitionsPanel));
 		MaterialTab leaderboardsTab = new MaterialTab("Leaderboards", tabGroup, leaderboardsPanel);
 		MaterialTab discordTab = new MaterialTab("Info", tabGroup, scroll(discordPanel));
@@ -82,8 +81,7 @@ public class SmokeScapeHubPanel extends PluginPanel
 		JScrollPane scrollPane = new JScrollPane(content);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.getVerticalScrollBar().setUI(new RuneLiteScrollBarUI());
-		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(9, 0));
+		scrollPane.getVerticalScrollBar().setUI(new SlickScrollBarUI());
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		return scrollPane;
 	}

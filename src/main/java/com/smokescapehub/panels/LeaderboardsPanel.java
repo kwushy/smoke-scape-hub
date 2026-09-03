@@ -4,6 +4,7 @@ import com.smokescapehub.temple.CollectionLogMember;
 import com.smokescapehub.temple.GroupMemberStats;
 import com.smokescapehub.temple.PetItems;
 import com.smokescapehub.temple.TempleOsrsClient;
+import com.smokescapehub.util.SlickScrollBarUI;
 import com.smokescapehub.util.TimeUtil;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,7 +25,6 @@ import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
 import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
-import net.runelite.client.ui.laf.RuneLiteScrollBarUI;
 
 public class LeaderboardsPanel extends JPanel
 {
@@ -184,8 +184,7 @@ public class LeaderboardsPanel extends JPanel
 		JScrollPane scrollPane = new JScrollPane(content);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.getVerticalScrollBar().setUI(new RuneLiteScrollBarUI());
-		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(9, 0));
+		scrollPane.getVerticalScrollBar().setUI(new SlickScrollBarUI());
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		return scrollPane;
 	}
